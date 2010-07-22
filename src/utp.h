@@ -280,35 +280,35 @@ namespace tada {
     }
 
     /*
-    * Binary Operators: +, -, *, / (for non UTP objects on LHS)
+    * Binary Operators: +, -, *, / (for scalar types)
     */
 
-    template<class T>
-    UTP<T> operator+(const T lhs, const UTP<T>& rhs)
+    template<class Scalar, class T>
+    UTP<T> operator+(const Scalar lhs, const UTP<T>& rhs)
     {
         UTP<T> temp(rhs);
         temp += lhs;
         return temp;
     }
 
-    template<class T>
-    UTP<T> operator-(const T lhs, const UTP<T>& rhs)
+    template<class Scalar, class T>
+    UTP<T> operator-(const Scalar lhs, const UTP<T>& rhs)
     {
         UTP<T> temp(-rhs);
         temp += lhs;
         return temp;
     }
 
-    template<class T>
-    UTP<T> operator*(const T lhs, const UTP<T>& rhs)
+    template<class Scalar, class T>
+    UTP<T> operator*(const Scalar lhs, const UTP<T>& rhs)
     {
         UTP<T> temp(rhs);
         temp *= lhs;
         return temp;
     }
 
-    template<class T>
-    UTP<T> operator/(const T lhs, const UTP<T>& rhs)
+    template<class Scalar, class T>
+    UTP<T> operator/(const Scalar lhs, const UTP<T>& rhs)
     {
         UTP<T> temp(rhs);
         temp /= lhs;
