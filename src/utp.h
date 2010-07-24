@@ -210,7 +210,7 @@ namespace tada {
         assert(lhs.length() == rhs.length());
         UTP<T> temp(lhs.length());
         for (typename std::vector<T>::size_type k = 0; k < lhs.length(); ++k)
-            temp.coeff[k] = utils::convolve(lhs.coeff.begin(), lhs.coeff.begin() + k + 1, rhs.coeff.begin() + k, 0.0);
+            temp.coeff[k] = utils::convolve(lhs.coeff.begin(), rhs.coeff.begin(), k, T(0.0));
         return temp;
     }
 
@@ -219,7 +219,7 @@ namespace tada {
         assert(lhs.length() == rhs.length());
         UTP<T> temp(lhs.length());
         for (typename std::vector<T>::size_type k = 0; k < lhs.length(); ++k)
-            temp.coeff[k] = (1/rhs.coeff[0]) * (lhs.coeff[k] - utils::convolve(temp.coeff.begin(), temp.coeff.begin() + k, rhs.coeff.begin() + k, 0.0));
+            temp.coeff[k] = (1/rhs.coeff[0]) * (lhs.coeff[k] - utils::convolve(temp.coeff.begin(), rhs.coeff.begin(), k, T(0.0)));
         return temp;
     }
 
