@@ -9,7 +9,7 @@ namespace tada {
     T convolve(InputIterator1 first1, InputIterator1 last1, InputIterator2 last2, T init = T())
     {
         while (first1 != last1)
-            init += (*first1++) * (*last2--);
+            init = init + (*first1++) * (*last2--);
         return init;
     }
 

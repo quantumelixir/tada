@@ -44,28 +44,60 @@ namespace tada {
         UTP<T>& operator=(const UTP<T>& other);
         T& operator[](const typename std::vector<T>::size_type index);
 
-        UTP<T> operator+() const;
-        UTP<T> operator-() const;
+		// relational operators
+		template<class U> friend const bool operator==(const UTP<U>& lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator!=(const UTP<U>& lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator< (const UTP<U>& lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator> (const UTP<U>& lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator<=(const UTP<U>& lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator>=(const UTP<U>& lhs, const UTP<U>& rhs);
 
-        UTP<T> operator+(const UTP<T>& other) const;
-        UTP<T> operator-(const UTP<T>& other) const;
-        UTP<T> operator*(const UTP<T>& other) const;
-        UTP<T> operator/(const UTP<T>& other) const;
+		template<class U> friend const bool operator==(U lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator!=(U lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator< (U lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator> (U lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator<=(U lhs, const UTP<U>& rhs);
+		template<class U> friend const bool operator>=(U lhs, const UTP<U>& rhs);
 
-        UTP<T> operator+(const T other) const;
-        UTP<T> operator-(const T other) const;
-        UTP<T> operator*(const T other) const;
-        UTP<T> operator/(const T other) const;
+		template<class U> friend const bool operator==(const UTP<U>& lhs, U rhs);
+		template<class U> friend const bool operator!=(const UTP<U>& lhs, U rhs);
+		template<class U> friend const bool operator< (const UTP<U>& lhs, U rhs);
+		template<class U> friend const bool operator> (const UTP<U>& lhs, U rhs);
+		template<class U> friend const bool operator<=(const UTP<U>& lhs, U rhs);
+		template<class U> friend const bool operator>=(const UTP<U>& lhs, U rhs);
 
-        UTP<T>& operator+=(const UTP<T>& other);
-        UTP<T>& operator-=(const UTP<T>& other);
-        UTP<T>& operator*=(const UTP<T>& other);
-        UTP<T>& operator/=(const UTP<T>& other);
+        // unary operators
+        template<class U> friend UTP<U> operator+(const UTP<U>& obj);
+        template<class U> friend UTP<U> operator-(const UTP<U>& obj);
 
-        UTP<T>& operator+=(const T other);
-        UTP<T>& operator-=(const T other);
-        UTP<T>& operator*=(const T other);
-        UTP<T>& operator/=(const T other);
+        // binary operators for vector types UTP<U>
+        template<class U> friend UTP<U> operator+(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator-(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator*(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator/(const UTP<U>& lhs, const UTP<U>& rhs);
+
+        // binary operators for scalar types U
+        template<class U> friend UTP<U> operator+(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U> operator-(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U> operator*(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U> operator/(const UTP<U>& lhs, const U rhs);
+
+        template<class U> friend UTP<U> operator+(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator+(const U lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator-(const U lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator*(const U lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U> operator/(const U lhs, const UTP<U>& rhs);
+
+        // combined assignment operators
+        template<class U> friend UTP<U>& operator+=(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U>& operator-=(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U>& operator*=(const UTP<U>& lhs, const UTP<U>& rhs);
+        template<class U> friend UTP<U>& operator/=(const UTP<U>& lhs, const UTP<U>& rhs);
+
+        template<class U> friend UTP<U>& operator+=(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U>& operator-=(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U>& operator*=(const UTP<U>& lhs, const U rhs);
+        template<class U> friend UTP<U>& operator/=(const UTP<U>& lhs, const U rhs);
 
     private:
         std::vector<T> coeff; // taylor coefficients
@@ -119,23 +151,6 @@ namespace tada {
     }
 
     /*
-    * Unary Operators: +, -
-    */
-    template<class T>
-    UTP<T> UTP<T>::operator+() const
-    {
-        return *this;
-    }
-
-    template<class T>
-    UTP<T> UTP<T>::operator-() const
-    {
-        UTP<T> temp(this->length());
-        std::transform(coeff.begin(), coeff.end(), temp.coeff.begin(), bind1st(std::multiplies<T>(), -1));
-        return temp;
-    }
-
-    /*
     * Assignment Operator: =
     */
     template<class T>
@@ -145,178 +160,120 @@ namespace tada {
         return *this;
     }
 
-    /*
-    * Binary Operators: +, -, *, /
-    */
-    template<class T>
-    UTP<T> UTP<T>::operator+(const UTP<T>& other) const
+    /* define the friend methods */
+
+    // relational operators
+    template<class T> const bool operator==(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] == rhs.coeff[0]; }
+    template<class T> const bool operator!=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] != rhs.coeff[0]; }
+    template<class T> const bool operator< (const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] <  rhs.coeff[0]; }
+    template<class T> const bool operator> (const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] >  rhs.coeff[0]; }
+    template<class T> const bool operator<=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] <= rhs.coeff[0]; }
+    template<class T> const bool operator>=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs.coeff[0] >= rhs.coeff[0]; }
+
+    template<class T> const bool operator==(T lhs, const UTP<T>& rhs) { return lhs == rhs.coeff[0]; }
+    template<class T> const bool operator!=(T lhs, const UTP<T>& rhs) { return lhs != rhs.coeff[0]; }
+    template<class T> const bool operator< (T lhs, const UTP<T>& rhs) { return lhs <  rhs.coeff[0]; }
+    template<class T> const bool operator> (T lhs, const UTP<T>& rhs) { return lhs >  rhs.coeff[0]; }
+    template<class T> const bool operator<=(T lhs, const UTP<T>& rhs) { return lhs <= rhs.coeff[0]; }
+    template<class T> const bool operator>=(T lhs, const UTP<T>& rhs) { return lhs >= rhs.coeff[0]; }
+
+    template<class T> const bool operator==(const UTP<T>& lhs, T rhs) { return lhs.coeff[0] == rhs; }
+    template<class T> const bool operator!=(const UTP<T>& lhs, T rhs) { return lhs.coeff[0] != rhs; }
+    template<class T> const bool operator< (const UTP<T>& lhs, T rhs) { return lhs.coeff[0] <  rhs; }
+    template<class T> const bool operator> (const UTP<T>& lhs, T rhs) { return lhs.coeff[0] >  rhs; }
+    template<class T> const bool operator<=(const UTP<T>& lhs, T rhs) { return lhs.coeff[0] <= rhs; }
+    template<class T> const bool operator>=(const UTP<T>& lhs, T rhs) { return lhs.coeff[0] >= rhs; }
+
+    /* unary operators: +, - */
+    template<class T> UTP<T> operator+(const UTP<T>& obj) { return obj; }
+    template<class T> UTP<T> operator-(const UTP<T>& obj)
     {
-        assert(this->length() == other.length());
-        UTP<T> temp(this->length());
-        std::transform(coeff.begin(), coeff.end(), other.coeff.begin(), temp.coeff.begin(), std::plus<T>());
+        UTP<T> temp(obj.length());
+        std::transform(obj.coeff.begin(), obj.coeff.end(), temp.coeff.begin(), bind1st(std::multiplies<T>(), -1));
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator-(const UTP<T>& other) const
+    /* binary operators: +, -, *, / */
+    template<class T> UTP<T> operator+(const UTP<T>& lhs, const UTP<T>& rhs)
     {
-        assert(this->length() == other.length());
-        UTP<T> temp(this->length());
-        std::transform(coeff.begin(), coeff.end(), other.coeff.begin(), temp.coeff.begin(), std::minus<T>());
+        assert(lhs.length() == rhs.length());
+        UTP<T> temp(lhs.length());
+        std::transform(lhs.coeff.begin(), lhs.coeff.end(), rhs.coeff.begin(), temp.coeff.begin(), std::plus<T>());
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator*(const UTP<T>& other) const
+    template<class T> UTP<T> operator-(const UTP<T>& lhs, const UTP<T>& rhs)
     {
-        assert(this->length() == other.length());
-        UTP<T> temp(this->length());
-        for (typename std::vector<T>::size_type k = 0; k < this->length(); ++k) 
-            temp.coeff[k] = utils::convolve(coeff.begin(), coeff.begin() + k + 1, other.coeff.begin() + k, 0.0);
+        assert(lhs.length() == rhs.length());
+        UTP<T> temp(lhs.length());
+        std::transform(lhs.coeff.begin(), lhs.coeff.end(), rhs.coeff.begin(), temp.coeff.begin(), std::minus<T>());
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator/(const UTP<T>& other) const
+    template<class T> UTP<T> operator*(const UTP<T>& lhs, const UTP<T>& rhs)
     {
-        assert(this->length() == other.length());
-        UTP<T> temp(this->length());
-        for (typename std::vector<T>::size_type k = 0; k < this->length(); ++k) 
-        {
-            temp.coeff[k] = (1/other.coeff[0]) * (coeff[k] - utils::convolve(temp.coeff.begin(), temp.coeff.begin() + k, other.coeff.begin() + k, 0.0));
-        }
+        assert(lhs.length() == rhs.length());
+        UTP<T> temp(lhs.length());
+        for (typename std::vector<T>::size_type k = 0; k < lhs.length(); ++k)
+            temp.coeff[k] = utils::convolve(lhs.coeff.begin(), lhs.coeff.begin() + k + 1, rhs.coeff.begin() + k, 0.0);
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator+(const T other) const
+    template<class T> UTP<T> operator/(const UTP<T>& lhs, const UTP<T>& rhs)
     {
-        UTP<T> temp(*this);
-        temp.coeff[0] += other;
+        assert(lhs.length() == rhs.length());
+        UTP<T> temp(lhs.length());
+        for (typename std::vector<T>::size_type k = 0; k < lhs.length(); ++k)
+            temp.coeff[k] = (1/rhs.coeff[0]) * (lhs.coeff[k] - utils::convolve(temp.coeff.begin(), temp.coeff.begin() + k, rhs.coeff.begin() + k, 0.0));
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator-(const T other) const
+    template<class T> UTP<T> operator+(const UTP<T>& lhs, const T rhs)
     {
-        UTP<T> temp(*this);
-        temp.coeff[0] -= other;
+        UTP<T> temp(lhs);
+        temp.coeff[0] = temp.coeff[0] + rhs;
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator*(const T other) const
+    template<class T> UTP<T> operator-(const UTP<T>& lhs, const T rhs)
     {
-        UTP<T> temp(this->length());
-        std::transform(coeff.begin(), coeff.end(), temp.coeff.begin(), bind2nd(std::multiplies<T>(), other));
+        UTP<T> temp(lhs);
+        temp.coeff[0] = temp.coeff[0] - rhs;
         return temp;
     }
 
-    template<class T>
-    UTP<T> UTP<T>::operator/(const T other) const
+    template<class T> UTP<T> operator*(const UTP<T>& lhs, const T rhs)
     {
-        UTP<T> temp(this->length());
-        std::transform(coeff.begin(), coeff.end(), temp.coeff.begin(), bind2nd(std::divides<T>(), other));
+        UTP<T> temp(lhs);
+        std::transform(lhs.coeff.begin(), lhs.coeff.end(), temp.coeff.begin(), bind2nd(std::multiplies<T>(), rhs));
         return temp;
     }
 
-    /*
-    * Combined Assignment Operators: +=, -=, *=, /=
-    */
-    template<class T>
-    UTP<T>& UTP<T>::operator+=(const UTP<T>& other)
+    template<class T> UTP<T> operator/(const UTP<T>& lhs, const T rhs)
     {
-        *this = *this + other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator-=(const UTP<T>& other)
-    {
-        *this = *this - other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator*=(const UTP<T>& other)
-    {
-        *this = *this * other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator/=(const UTP<T>& other)
-    {
-        *this = *this / other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator+=(const T other)
-    {
-        *this = *this + other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator-=(const T other)
-    {
-        *this = *this - other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator*=(const T other)
-    {
-        *this = *this * other;
-        return *this;
-    }
-
-    template<class T>
-    UTP<T>& UTP<T>::operator/=(const T other)
-    {
-        *this = *this / other;
-        return *this;
-    }
-
-    /*
-    * Binary Operators: +, -, *, / (for scalar types)
-    */
-
-    template<class Scalar, class T>
-    UTP<T> operator+(const Scalar lhs, const UTP<T>& rhs)
-    {
-        UTP<T> temp(rhs);
-        temp += lhs;
+        UTP<T> temp(lhs);
+        std::transform(lhs.coeff.begin(), lhs.coeff.end(), temp.coeff.begin(), bind2nd(std::divides<T>(), rhs));
         return temp;
     }
 
-    template<class Scalar, class T>
-    UTP<T> operator-(const Scalar lhs, const UTP<T>& rhs)
-    {
-        UTP<T> temp(-rhs);
-        temp += lhs;
-        return temp;
-    }
+    template<class T> UTP<T> operator+(const T lhs, const UTP<T>& rhs) { return rhs + lhs; }
+    template<class T> UTP<T> operator-(const T lhs, const UTP<T>& rhs) { return -rhs + lhs; }
+    template<class T> UTP<T> operator*(const T lhs, const UTP<T>& rhs) { return rhs * lhs; }
+    template<class T> UTP<T> operator/(const T lhs, const UTP<T>& rhs) { return UTP<T>(rhs.length(), lhs) / rhs; }
 
-    template<class Scalar, class T>
-    UTP<T> operator*(const Scalar lhs, const UTP<T>& rhs)
-    {
-        UTP<T> temp(rhs);
-        temp *= lhs;
-        return temp;
-    }
+    /* combined assignment operators */
+    template<class T> UTP<T>& operator+=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs = lhs + rhs; }
+    template<class T> UTP<T>& operator-=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs = lhs - rhs; }
+    template<class T> UTP<T>& operator*=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs = lhs * rhs; }
+    template<class T> UTP<T>& operator/=(const UTP<T>& lhs, const UTP<T>& rhs) { return lhs = lhs / rhs; }
 
-    template<class Scalar, class T>
-    UTP<T> operator/(const Scalar lhs, const UTP<T>& rhs)
-    {
-        UTP<T> temp(rhs);
-        temp /= lhs;
-        return temp;
-    }
+    template<class T> UTP<T>& operator+=(const UTP<T>& lhs, const T rhs) { return lhs = lhs + rhs;}
+    template<class T> UTP<T>& operator-=(const UTP<T>& lhs, const T rhs) { return lhs = lhs - rhs;}
+    template<class T> UTP<T>& operator*=(const UTP<T>& lhs, const T rhs) { return lhs = lhs * rhs;}
+    template<class T> UTP<T>& operator/=(const UTP<T>& lhs, const T rhs) { return lhs = lhs / rhs;}
 
-    }
+    } // namespace utp
 
-}
+} // namespace tada
 
 #endif /* __UTP_H__ */
