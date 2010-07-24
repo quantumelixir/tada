@@ -20,8 +20,7 @@ link_directories ("${PROJECT_SOURCE_DIR}/mpfrc++")
 
 # project files
 add_subdirectory(demos)
-# add_subdirectory(tests)
-enable_testing()
+add_subdirectory(tests)
 
 # external libraries
 add_subdirectory(mpfrc++)
