@@ -1,1 +1,9 @@
 tada -- templated automatic differentiation
+
+help
+----
+  $ mkdir build
+  $ cd build
+  $ cmake ..
+  $ make
+  $ ls demos/ tests/
