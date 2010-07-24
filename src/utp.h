@@ -27,7 +27,6 @@ namespace tada {
         UTP(const typename std::vector<T>::size_type length, const T value);
         UTP(const UTP<T>& other);
         UTP(const T* begin, const T* end);
-        UTP();
 
         typename std::vector<T>::size_type length() const {
             return coeff.size();
@@ -111,14 +110,15 @@ namespace tada {
     UTP<T>::UTP(const typename std::vector<T>::size_type length)
     {
         assert(length >= 1);
-        coeff.assign(length, 0.0);
+        coeff.assign(length, T(0.0));
     }
 
     template<class T>
     UTP<T>::UTP(const typename std::vector<T>::size_type length, const T value)
     {
         assert(length >= 1);
-        coeff.assign(length, value);
+        coeff.assign(length, T(0.0));
+        coeff[0] = value;
     }
 
     template<class T>
@@ -133,11 +133,6 @@ namespace tada {
         assert(end > begin);
         coeff.reserve(end - begin);
         std::copy(begin, end, std::back_insert_iterator< std::vector<T> >(coeff));
-    }
-
-    template<class T>
-    UTP<T>::UTP()
-    {
     }
 
     /*
