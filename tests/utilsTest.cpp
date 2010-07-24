@@ -2,6 +2,7 @@
 
 using namespace tada::utils;
 using namespace std;
+using mpfr::mpreal;
 
 CPPUNIT_TEST_SUITE_REGISTRATION (utilsTest);
 
@@ -24,6 +25,21 @@ void utilsTest :: tearDown (void)
 {
     // finally delete objects
     delete a; delete b; delete u; delete v;
+}
+
+void utilsTest::GeneratorTest(void)
+{
+    Generator<double> gen;
+    CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 0.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 1.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 2.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 3.0);
+
+    Generator<mpreal> mpg(mpreal(2.0), mpreal(4.5));
+    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(2.0));
+    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(6.5));
+    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(11.0));
+    CPPUNIT_ASSERT_EQUAL (++mpg, mpreal(20.0));
 }
 
 void utilsTest::convTest(void)

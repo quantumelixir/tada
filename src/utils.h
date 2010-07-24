@@ -5,6 +5,28 @@ namespace tada {
 
     namespace utils {
 
+        // generator to count using type T
+        template<class T>
+        class Generator
+        {
+            public:
+                Generator() : curr_(T(0.0)), step_(T(1.0)) { }
+                Generator(const T& start, const T& step) : curr_(start), step_(step) { }
+
+                const T next() { return (*this)++; } // alias for postfix increment
+                const T operator++() { return curr_ += step_; } // prefix
+                const T operator++(int dummy) // postfix
+                {
+                    T ret = curr_;
+                    curr_ += step_;
+                    return ret;
+                }
+
+            private:
+                T curr_;
+                T step_;
+        };
+
         // convolve: \sum_{i=0}^{k}  a_i * v_{k-i}
         template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             T convolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init)
