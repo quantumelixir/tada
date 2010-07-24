@@ -43,10 +43,9 @@ namespace tada {
             T tconvolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init)
             {
                 v = v + k;
-                T inc(0.0);
+                Generator<T> inc;
                 do {
-                    init = init + inc * (*a++) * (*v--);
-                    inc = inc + T(1.0);
+                    init = init + (inc++) * (*a++) * (*v--);
                 } while (k--);
                 return init;
             }
@@ -55,26 +54,20 @@ namespace tada {
         template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             void solve_ueqva(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
             {
-                T inc(1.0);
+                Generator<T> inc;
                 IndexType k = 1; // skip the constant term
                 while (k++ < n)
-                {
-                    *++u = tconvolve(a, v, k, init) / inc;
-                    inc = inc + T(1.0);
-                }
+                    *++u = tconvolve(a, v, k, init) / (++inc);
             }
 
         // solve a' = vu' | solves for u (except for the constant term) i.e. n > 1
         template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             void solve_aeqvu(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
             {
-                T inc(1.0);
+                Generator<T> inc;
                 IndexType k = 1; // skip the constant term
                 while (k++ < n)
-                {
-                    *++u = (inc * (*++a) - tconvolve(u, v, k - 1, init)) / (*v * inc);
-                    inc = inc + T(1.0);
-                }
+                    *++u = (*++a)/(*v) - tconvolve(u, v, k - 1, init)/(*v * (++inc));
             }
 
     } // namespace utils
