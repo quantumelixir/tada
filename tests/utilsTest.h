@@ -10,7 +10,7 @@
 #include "mpreal.h"
 #include "common.h"
 
-class utilsTest : public CPPUNIT_NS :: TestFixture
+class utilsTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE (utilsTest);
     CPPUNIT_TEST (GeneratorTest);
@@ -21,8 +21,8 @@ class utilsTest : public CPPUNIT_NS :: TestFixture
     CPPUNIT_TEST_SUITE_END ();
 
     public:
-        void setUp (void);
-        void tearDown (void);
+        void setUp(void);
+        void tearDown(void);
 
     protected:
         void GeneratorTest(void);

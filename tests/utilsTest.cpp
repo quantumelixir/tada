@@ -6,7 +6,7 @@ using mpfr::mpreal;
 
 CPPUNIT_TEST_SUITE_REGISTRATION (utilsTest);
 
-void utilsTest :: setUp (void)
+void utilsTest::setUp(void)
 {
     // set up test environment (initializing objects)
     a = new vector<double>(5);
@@ -21,7 +21,7 @@ void utilsTest :: setUp (void)
     (*u)[0] =  0 ; (*u)[1] = 0 ; (*u)[2] = 0 ; (*u)[3] = 0 ; (*u)[4] = 0 ;
 }
 
-void utilsTest :: tearDown (void)
+void utilsTest::tearDown(void)
 {
     // finally delete objects
     delete a; delete b; delete u; delete v;
