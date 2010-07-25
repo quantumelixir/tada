@@ -1,6 +1,8 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#include <cassert>
+
 namespace tada {
 
     namespace utils {
@@ -32,6 +34,8 @@ namespace tada {
         template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             T convolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init)
             {
+                assert(k >= 0);
+
                 v = v + k;
                 do {
                     init += (*a++) * (*v--);
@@ -43,6 +47,8 @@ namespace tada {
         template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             T tconvolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init, int skiplastn = 0)
             {
+                assert(k >= 0);
+
                 v = v + k;
                 Generator<T> inc;
                 do {
@@ -55,6 +61,8 @@ namespace tada {
         template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             void solve_ueqva(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
             {
+                assert(n >= 1);
+
                 Generator<T> inc;
                 IndexType k = 1; // skip the constant term
                 while (k < n)
@@ -68,6 +76,8 @@ namespace tada {
         template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             void solve_aeqvu(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
             {
+                assert(n >= 1);
+
                 OutputIter ucurr = u;
                 Generator<T> inc;
                 IndexType k = 1; // skip the constant term
