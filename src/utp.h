@@ -7,6 +7,7 @@
 #include <algorithm>  // copy, transform
 #include <vector>     // vector
 #include <cassert>    // assert
+#include <cmath>      // math functions
 
 #include "utils.h" // convolve
 
@@ -98,6 +99,9 @@ namespace tada {
         template<class U> friend UTP<U>& operator*=(const UTP<U>& lhs, const U rhs);
         template<class U> friend UTP<U>& operator/=(const UTP<U>& lhs, const U rhs);
 
+        template<class U> friend const UTP<U> fabs(const UTP<U>& obj);
+        template<class U> friend const UTP<U> ceil(const UTP<U>& obj);
+        template<class U> friend const UTP<U> floor(const UTP<U>& obj);
     private:
         std::vector<T> coeff; // taylor coefficients
     };
@@ -267,6 +271,9 @@ namespace tada {
     template<class T> UTP<T>& operator*=(const UTP<T>& lhs, const T rhs) { return lhs = lhs * rhs;}
     template<class T> UTP<T>& operator/=(const UTP<T>& lhs, const T rhs) { return lhs = lhs / rhs;}
 
+    template<class T> const UTP<T> fabs (const UTP<T>& obj) { return (obj.coeff[0] > 0) ? obj : -obj; }
+    template<class T> const UTP<T> ceil (const UTP<T>& obj) { return UTP<T>(obj.length(), std::ceil(obj.coeff[0])); }
+    template<class T> const UTP<T> floor(const UTP<T>& obj) { return UTP<T>(obj.length(), std::floor(obj.coeff[0])); }
     } // namespace utp
 
 } // namespace tada
