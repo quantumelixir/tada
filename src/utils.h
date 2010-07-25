@@ -34,20 +34,20 @@ namespace tada {
             {
                 v = v + k;
                 do {
-                    init = init + (*a++) * (*v--);
+                    init += (*a++) * (*v--);
                 } while (k--);
                 return init;
             }
 
-        // tilde convolve: \sum_{i=0}^{k} i * a_i * v_{k-i}
+        // tilde convolve: \sum_{i=0}^{k} i * a_i * v_{k-i} (skips the last `skiplastn' terms of the convolution)
         template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
-            T tconvolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init)
+            T tconvolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init, int skiplastn = 0)
             {
                 v = v + k;
                 Generator<T> inc;
                 do {
-                    init = init + (inc++) * (*a++) * (*v--);
-                } while (k--);
+                    init += (inc++) * (*a++) * (*v--);
+                } while (k-- - skiplastn > 0);
                 return init;
             }
 
@@ -57,18 +57,26 @@ namespace tada {
             {
                 Generator<T> inc;
                 IndexType k = 1; // skip the constant term
-                while (k++ < n)
+                while (k < n)
+                {
                     *++u = tconvolve(a, v, k, init) / (++inc);
+                    k++;
+                }
             }
 
         // solve a' = vu' | solves for u (except for the constant term) i.e. n > 1
         template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
             void solve_aeqvu(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
             {
+                OutputIter ucurr = u;
                 Generator<T> inc;
                 IndexType k = 1; // skip the constant term
-                while (k++ < n)
-                    *++u = (*++a)/(*v) - tconvolve(u, v, k - 1, init)/(*v * (++inc));
+                while (k < n)
+                {
+                    inc++;
+                    *++ucurr = (inc() * (*++a) - tconvolve(u, v, k, init, 1))/(*v * inc());
+                    k++;
+                }
             }
 
     } // namespace utils

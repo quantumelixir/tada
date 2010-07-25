@@ -64,27 +64,27 @@ void utilsTest::tconvTest(void)
 void utilsTest::solve_ueqvaTest(void)
 {
     // solve u' = va'
-    // a:  1 , -4  , 2  , 4    , 3
-    // v:  3 , 1   , -5 , -4   , -4
-    // u:  ? , -12 , 4  , 64/3 , 3
+    // a:  1 , -4  , 2  , 4  , 3
+    // v:  3 , 1   , -5 , -4 , -4
+    // u:  ? , -12 , 4  , 20 , 11
 
-    solve_ueqva(u->begin(), a->begin(), v->begin(), 5, 0.0);
+    solve_ueqva(u->begin(), a->begin(), v->begin(), u->size(), 0.0);
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[1], -12.0);
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[2], 4.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3], 64.0/3.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4], 3.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3], 20.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4], 11.0);
 }
 
 void utilsTest::solve_aeqvuTest(void)
 {
     // solve a' = vu'
-    // a:  1 , -4  , 2     , 4      , 3
-    // v:  3 , 1   , -5    , -4     , -4
-    // u:  ? , 1/3 , 11/18 , 112/81 , 341/324.0
+    // a:  1 , -4   , 2   , 4     , 3
+    // v:  3 , 1    , -5  , -4    , -4
+    // u:  0 , -4/3 , 8/9 , 32/81 , 97/81
 
-    solve_aeqvu(u->begin(), a->begin(), v->begin(), 5, 0.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[1], 1/3.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[2], 11/18.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3], 112/81.0);
-    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4], 341/324.0);
+    solve_aeqvu(u->begin(), a->begin(), v->begin(), u->size(), 0.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[1], -4/3.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[2], 8/9.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3], 32/81.0);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4], 97/81.0);
 }
