@@ -14,6 +14,7 @@ namespace tada {
                 Generator(const T& start, const T& step) : curr_(start), step_(step) { }
 
                 const T next() { return (*this)++; } // alias for postfix increment
+                const T operator()() { return curr_; } // return current state
                 const T operator++() { return curr_ += step_; } // prefix
                 const T operator++(int dummy) // postfix
                 {

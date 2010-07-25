@@ -40,6 +40,7 @@ void utilsTest::GeneratorTest(void)
     CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(6.5));
     CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(11.0));
     CPPUNIT_ASSERT_EQUAL (++mpg, mpreal(20.0));
+    CPPUNIT_ASSERT_EQUAL (mpg(), mpreal(20.0));
 }
 
 void utilsTest::convTest(void)
