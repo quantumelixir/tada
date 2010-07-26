@@ -8,6 +8,7 @@
 
 #include "utils.h"
 #include "common.h"
+#include <cmath>
 
 class utilsTest : public CPPUNIT_NS::TestFixture
 {
@@ -17,6 +18,7 @@ class utilsTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST (tconvTest);
     CPPUNIT_TEST (solve_ueqvaTest);
     CPPUNIT_TEST (solve_aeqvuTest);
+    CPPUNIT_TEST (solve_simulTest);
     CPPUNIT_TEST_SUITE_END ();
 
     public:
@@ -29,6 +31,7 @@ class utilsTest : public CPPUNIT_NS::TestFixture
         void tconvTest(void);
         void solve_ueqvaTest(void);
         void solve_aeqvuTest(void);
+        void solve_simulTest(void);
 
     private:
         std::vector<double> *a, *b, *u, *v;

@@ -87,3 +87,28 @@ void utilsTest::solve_aeqvuTest(void)
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3], 32/81.0);
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4], 97/81.0);
 }
+
+void utilsTest::solve_simulTest(void)
+{
+    // solve a' = vu'
+    // a:  1 , -4   , 2   , 4     , 3
+    // v:  3 , 1    , -5  , -4    , -4
+    // u:  0 , -4/3 , 8/9 , 32/81 , 97/81
+
+            /*
+             *void solve_simul(IterA u1, T alpha1, IterB a1, IterB v1,
+             *                 IterA u2, T alpha2, IterB a2, IterB v2,
+             *                 IndexType n, int kind)
+             */
+
+    (*u)[0] = sin((*a)[0]); (*v)[0] = cos((*a)[0]);
+    solve_simul(u->begin(),  1.0, a->begin(), v->begin(),
+                v->begin(), -1.0, a->begin(), u->begin(),
+                u->size() ,  1);
+
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[0],  0.8414709848078965);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[1], -2.1612092234725591);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[2], -5.6511632667268925);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3],  14.656201697862556);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4],  13.732354315642295);
+}

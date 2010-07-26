@@ -90,6 +90,64 @@ namespace tada {
                 }
             }
 
+        // solve two linear differential equations simultaneously
+        template <class IterA, class IterB, class IndexType, class T>
+            void solve_simul(IterA u1, T alpha1, IterB a1, IterB v1,
+                             IterA u2, T alpha2, IterB a2, IterB v2,
+                             IndexType n, int kind)
+            {
+                assert(n >= 1);
+                assert(kind >=1 && kind <= 4);
+
+                T init(0.0);
+                IterA _u1 = u1, _u2 = u2;
+                Generator<T> inc;
+                IndexType k = 1; // skip the constant term
+
+                switch (kind)
+                {
+                    case 1 :
+                        while (k < n)
+                        {
+                            inc++;
+                            *++u1 = alpha1 * tconvolve(a1, v1, k, init) / inc();
+                            *++u2 = alpha2 * tconvolve(a2, v2, k, init) / inc();
+                            k++;
+                        }
+                        break;
+
+                    case 2 :
+                        while (k < n)
+                        {
+                            inc++;
+                            *++u1 = alpha1 * tconvolve(a1, v1, k, init) / inc();
+                            *++u2 = (inc() * (*++a2) - tconvolve(_u2, v2, k, init, 1))/(*v1 * inc());
+                            k++;
+                        }
+                        break;
+
+                    case 3 :
+                        while (k < n)
+                        {
+                            inc++;
+                            *++u1 = (inc() * (*++a1) - tconvolve(_u1, v1, k, init, 1))/(*v1 * inc());
+                            *++u2 = alpha2 * tconvolve(a2, v2, k, init) / inc();
+                            k++;
+                        }
+                        break;
+
+                    case 4 :
+                        while (k < n)
+                        {
+                            inc++;
+                            *++u1 = (inc() * (*++a1) - tconvolve(_u1, v1, k, init, 1))/(*v1 * inc());
+                            *++u2 = (inc() * (*++a2) - tconvolve(_u2, v2, k, init, 1))/(*v1 * inc());
+                            k++;
+                        }
+                        break;
+                }
+            }
+
     } // namespace utils
 
 } // namespace tada
