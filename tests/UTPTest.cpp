@@ -2,7 +2,6 @@
 
 using namespace tada::utp;
 using namespace std;
-using mpfr::mpreal;
 
 CPPUNIT_TEST_SUITE_REGISTRATION (UTPTest);
 

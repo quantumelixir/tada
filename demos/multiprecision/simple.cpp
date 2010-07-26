@@ -1,7 +1,7 @@
 #include <iostream>
-#include <iomanip>
 
 #include "tada.h"
+#include "mpreal.h"
 
 using namespace std;
 
@@ -20,10 +20,8 @@ int main(int argc, char **argv)
 {
     double x0 = 1.0;
 
-    cout << fixed << setprecision(20);
-
-    cout << "Single precision: " << f(float(x0)) << endl;
-    cout << "Double precision: " << f(double(x0)) << endl;
+    mpfr::mpreal::set_default_prec(128);
+    cout << f(mpfr::mpreal(x0)) << endl;
 
     return 0;
 }

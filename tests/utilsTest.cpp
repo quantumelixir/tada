@@ -2,7 +2,6 @@
 
 using namespace tada::utils;
 using namespace std;
-using mpfr::mpreal;
 
 CPPUNIT_TEST_SUITE_REGISTRATION (utilsTest);
 
@@ -35,12 +34,12 @@ void utilsTest::GeneratorTest(void)
     CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 2.0);
     CPPUNIT_ASSERT_ALMOST_EQUAL (gen.next(), 3.0);
 
-    Generator<mpreal> mpg(mpreal(2.0), mpreal(4.5));
-    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(2.0));
-    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(6.5));
-    CPPUNIT_ASSERT_EQUAL (mpg++, mpreal(11.0));
-    CPPUNIT_ASSERT_EQUAL (++mpg, mpreal(20.0));
-    CPPUNIT_ASSERT_EQUAL (mpg(), mpreal(20.0));
+    Generator<double> inc(2.0, 4.5);
+    CPPUNIT_ASSERT_EQUAL (inc++, 2.0);
+    CPPUNIT_ASSERT_EQUAL (inc++, 6.5);
+    CPPUNIT_ASSERT_EQUAL (inc++, 11.0);
+    CPPUNIT_ASSERT_EQUAL (++inc, 20.0);
+    CPPUNIT_ASSERT_EQUAL (inc(), 20.0);
 }
 
 void utilsTest::convTest(void)

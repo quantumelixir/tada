@@ -7,7 +7,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "utp.h"
-#include "mpreal.h"
 #include "common.h"
 
 class UTPTest : public CPPUNIT_NS::TestFixture

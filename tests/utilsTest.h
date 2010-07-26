@@ -7,7 +7,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "utils.h"
-#include "mpreal.h"
 #include "common.h"
 
 class utilsTest : public CPPUNIT_NS::TestFixture
