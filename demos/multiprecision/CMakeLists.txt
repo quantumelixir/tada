@@ -8,7 +8,7 @@ if(GMP_FOUND AND MPFR_FOUND)
 	include_directories(${GMP_INCLUDE_DIRS})
 	include_directories(${MPFR_INCLUDE_DIRS})
 
-	set(file_list "mpfrc++_demo.cpp" "simple.cpp")
+	set(file_list "mp_mpfrc++_demo.cpp" "mp_simple.cpp")
 	foreach(source ${file_list})
 		get_filename_component(binary ${source} NAME_WE)
 		add_executable (${binary} ${source})
