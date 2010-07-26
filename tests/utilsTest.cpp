@@ -90,18 +90,13 @@ void utilsTest::solve_aeqvuTest(void)
 
 void utilsTest::solve_simulTest(void)
 {
-    // solve a' = vu'
+    // solve u' = va' and v' = -ua'
     // a:  1 , -4   , 2   , 4     , 3
-    // v:  3 , 1    , -5  , -4    , -4
-    // u:  0 , -4/3 , 8/9 , 32/81 , 97/81
-
-            /*
-             *void solve_simul(IterA u1, T alpha1, IterB a1, IterB v1,
-             *                 IterA u2, T alpha2, IterB a2, IterB v2,
-             *                 IndexType n, int kind)
-             */
+    // u: sin(a[0]), 0, 0, 0, 0
+    // v: cos(a[0]), 0, 0, 0, 0
 
     (*u)[0] = sin((*a)[0]); (*v)[0] = cos((*a)[0]);
+
     solve_simul(u->begin(),  1.0, a->begin(), v->begin(),
                 v->begin(), -1.0, a->begin(), u->begin(),
                 u->size() ,  1);
@@ -111,4 +106,10 @@ void utilsTest::solve_simulTest(void)
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[2], -5.6511632667268925);
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[3],  14.656201697862556);
     CPPUNIT_ASSERT_ALMOST_EQUAL ((*u)[4],  13.732354315642295);
+
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*v)[0],  0.54030230586813977);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*v)[1],  3.365883939231586);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*v)[2], -6.0053604165609116);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*v)[3], -8.0191559969040309);
+    CPPUNIT_ASSERT_ALMOST_EQUAL ((*v)[4],  24.26657968058344);
 }
