@@ -31,8 +31,8 @@ namespace tada {
         };
 
         // convolve: \sum_{i=0}^{k}  a_i * v_{k-i}
-        template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
-            T convolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init)
+        template <class IterA, class IterB, class IndexType, class T>
+            T convolve(IterA a, IterB v, IndexType k, T init)
             {
                 assert(k >= 0);
 
@@ -44,8 +44,8 @@ namespace tada {
             }
 
         // tilde convolve: \sum_{i=0}^{k} i * a_i * v_{k-i} (skips the last `skiplastn' terms of the convolution)
-        template <class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
-            T tconvolve(BidirectionalIter1 a, BidirectionalIter2 v, IndexType k, T init, int skiplastn = 0)
+        template <class IterA, class IterB, class IndexType, class T>
+            T tconvolve(IterA a, IterB v, IndexType k, T init, int skiplastn = 0)
             {
                 assert(k >= 0);
 
@@ -58,8 +58,8 @@ namespace tada {
             }
 
         // solve u' = va' | solves for u (except for the constant term) i.e. n >= 1
-        template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
-            void solve_ueqva(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
+        template <class IterA, class IterB, class IndexType, class T>
+            void solve_ueqva(IterA u, IterB a, IterB v, IndexType n, T init)
             {
                 assert(n >= 1);
 
@@ -67,18 +67,19 @@ namespace tada {
                 IndexType k = 1; // skip the constant term
                 while (k < n)
                 {
-                    *++u = tconvolve(a, v, k, init) / (++inc);
+                    ++inc;
+                    *++u = tconvolve(a, v, k, init) / inc();
                     k++;
                 }
             }
 
         // solve a' = vu' | solves for u (except for the constant term) i.e. n > 1
-        template <class OutputIter, class BidirectionalIter1, class BidirectionalIter2, class IndexType, class T>
-            void solve_aeqvu(OutputIter u, BidirectionalIter1 a, BidirectionalIter2 v, IndexType n, T init)
+        template <class IterA, class IterB, class IndexType, class T>
+            void solve_aeqvu(IterA u, IterB a, IterB v, IndexType n, T init)
             {
                 assert(n >= 1);
 
-                OutputIter ucurr = u;
+                IterA ucurr = u;
                 Generator<T> inc;
                 IndexType k = 1; // skip the constant term
                 while (k < n)
