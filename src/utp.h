@@ -42,7 +42,18 @@ namespace tada {
         }
 
         UTP<T>& operator=(const UTP<T>& other);
-        T& operator[](const typename std::vector<T>::size_type index);
+
+        /*
+        * Get/Set Methods
+        */
+        const T& operator[](const typename std::vector<T>::size_type index) const {
+            assert(index >=0 && index < coeff.size());
+            return coeff[index];
+        }
+        void set(const typename std::vector<T>::size_type index, const T& value) {
+            assert(index >=0 && index < coeff.size());
+            coeff[index] = value;
+        }
 
 		// relational operators
 		template<class U> friend const bool operator==(const UTP<U>& lhs, const UTP<U>& rhs);
