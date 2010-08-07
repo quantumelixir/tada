@@ -58,8 +58,8 @@ namespace tada {
             }
 
         // solve u' = va' | solves for u (except for the constant term) i.e. n >= 1
-        template <class IterA, class IterB, class IndexType, class T>
-            void solve_ueqva(IterA u, IterB a, IterB v, IndexType n, T init)
+        template <class IterA, class IterB, class IterC, class IndexType, class T>
+            void solve_ueqva(IterA u, IterB a, IterC v, IndexType n, T init)
             {
                 assert(n >= 1);
 
@@ -74,8 +74,8 @@ namespace tada {
             }
 
         // solve a' = vu' | solves for u (except for the constant term) i.e. n > 1
-        template <class IterA, class IterB, class IndexType, class T>
-            void solve_aeqvu(IterA u, IterB a, IterB v, IndexType n, T init)
+        template <class IterA, class IterB, class IterC, class IndexType, class T>
+            void solve_aeqvu(IterA u, IterB a, IterC v, IndexType n, T init)
             {
                 assert(n >= 1);
 
@@ -91,9 +91,9 @@ namespace tada {
             }
 
         // solve two linear differential equations simultaneously
-        template <class IterA, class IterB, class IndexType, class T>
-            void solve_simul(IterA u1, T alpha1, IterB a1, IterB v1,
-                             IterA u2, T alpha2, IterB a2, IterB v2,
+        template <class IterA, class IterB, class IterC, class IterD, class IterE, class IterF, class IndexType, class T>
+            void solve_simul(IterA u1, T alpha1, IterB a1, IterC v1,
+                             IterD u2, T alpha2, IterE a2, IterF v2,
                              IndexType n, int kind)
             {
                 assert(n >= 1);
