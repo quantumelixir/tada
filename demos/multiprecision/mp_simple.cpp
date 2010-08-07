@@ -12,8 +12,8 @@ template<class T>
 UTP<T> f(T x0, unsigned int N = 5)
 {
     UTP<T> x(N);
-    x.set(x0     , 0);
-    x.set(T(1.0) , 1);
+    x.set(0, x0);
+    x.set(1, T(1.0));
     return x/(T(1.0) + x);
 }
 
