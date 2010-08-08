@@ -44,7 +44,7 @@ elementary functions and trigonometric, hyperbolic functions and their inverses.
 Operator overloading yields a very high level of abstraction in specifying the
 function to be differentiated.
 
-An example from the set of standard demos included:
+An example expression from the set of standard demos included:
 sin(x*x)/(1 + log(x)) + asin(1/(1 + cosh(x)*tanh(x)))
 
 
@@ -65,7 +65,7 @@ done
 future
 ------
   * utp for matrices
-  * interval arithmetic
+  * interval arithmetic, rational types
   * solving ordinary differential equations
   * forward and reverse mode using the recorded computational graph
   * discover redundancies in computational graph and reuse common subexpressions

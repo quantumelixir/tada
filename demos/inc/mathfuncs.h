@@ -1,7 +1,8 @@
 #include "tada.h"
 #include <iostream>
 
-static const std::string str_f0("x/(1 - x + x*x)");
+static const std::string str_f0("Computing first five Taylor coefficients " \
+                                "of x/(1 - x + x*x):");
 template<class T>
 tada::utp::UTP<T> f0(T x0, unsigned int N = 5)
 {
@@ -11,7 +12,8 @@ tada::utp::UTP<T> f0(T x0, unsigned int N = 5)
     return x/(T(1.0) - x + x*x);
 }
 
-static const std::string str_f1("x*sin(x)/(1 + exp(x))");
+static const std::string str_f1("Computing first five Taylor coefficients " \
+                                "of x*sin(x)/(1 + exp(x)):");
 template<class T>
 tada::utp::UTP<T> f1(T x0, unsigned int N = 5)
 {
@@ -21,7 +23,8 @@ tada::utp::UTP<T> f1(T x0, unsigned int N = 5)
     return x*sin(x)/(T(1.0) + exp(x));
 }
 
-static const std::string str_f2("log(x)*tan(x) + asin(1/(1 + cosh(x)))");
+static const std::string str_f2("Computing first five Taylor coefficients " \
+                                "of log(x)*tan(x) + asin(1/(1 + cosh(x))):");
 template<class T>
 tada::utp::UTP<T> f2(T x0, unsigned int N = 5)
 {
@@ -31,8 +34,9 @@ tada::utp::UTP<T> f2(T x0, unsigned int N = 5)
     return log(x)*tan(x) + asin(T(1.0)/(T(1.0) + cosh(x)));
 }
 
-static const std::string str_f3("sin(x*x)/(1 + log(x)) + " \
-                           "asin(1/(1 + cosh(x)*tanh(x)))");
+static const std::string str_f3("Computing first five Taylor coefficients " \
+                                "of sin(x*x)/(1 + log(x)) + " \
+                                "asin(1/(1 + cosh(x)*tanh(x))):");
 template<class T>
 tada::utp::UTP<T> f3(T x0, unsigned int N = 5)
 {
