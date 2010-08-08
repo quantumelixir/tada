@@ -248,7 +248,7 @@ namespace tada {
         assert(lhs.length() == rhs.length());
         UTP<T> temp(lhs.length());
         for (typename std::vector<T>::size_type k = 0; k < lhs.length(); ++k)
-            temp.coeff[k] = (1/rhs.coeff[0]) * (lhs.coeff[k] - utils::convolve(temp.coeff.begin(), rhs.coeff.begin(), k, T(0.0)));
+            temp.coeff[k] = (T(1.0)/rhs.coeff[0]) * (lhs.coeff[k] - utils::convolve(temp.coeff.begin(), rhs.coeff.begin(), k, T(0.0)));
         return temp;
     }
 
