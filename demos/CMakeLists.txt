@@ -1,4 +1,5 @@
 include_directories(inc)
+
 set(file_list "mathfuncs.cpp")
 foreach(source ${file_list})
     get_filename_component(binary ${source} NAME_WE)
@@ -6,3 +7,5 @@ foreach(source ${file_list})
 endforeach(source)
 
 add_subdirectory (multiprecision)
+add_subdirectory (complex)
+add_subdirectory (rational)
