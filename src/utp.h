@@ -8,12 +8,25 @@
 #include <vector>     // vector
 #include <cassert>    // assert
 #include <cmath>      // math functions
+#include <tr1/math.h> // more math!
 
 #include "utils.h" // convolve
 
 namespace tada {
 
     namespace utp {
+
+    // places to search for, for standard math functions
+    namespace math {
+        using std::floor; using std::ceil;
+
+        using std::sqrt; using std::exp; using std::log;
+
+        using std::sin; using std::cos; using std::tan;
+        using std::asin; using std::acos; using std::atan;
+        using std::sinh; using std::cosh; using std::tanh;
+        using std::tr1::asinh; using std::tr1::acosh; using std::tr1::atanh;
+    }
 
     /*
     * Implements the arithmetic for the truncated univariate
@@ -296,18 +309,35 @@ namespace tada {
     template<class T> UTP<T>& operator*=(const UTP<T>& lhs, const T rhs) { return lhs = lhs * rhs;}
     template<class T> UTP<T>& operator/=(const UTP<T>& lhs, const T rhs) { return lhs = lhs / rhs;}
 
-    // TODO <math.h> functions (except for dlexp, frexp, modf and fmod)
-    template<class T> const UTP<T> fabs (const UTP<T>& a) { return (a.coeff[0] > 0) ? a : -a; }
-    template<class T> const UTP<T> ceil (const UTP<T>& a) { return UTP<T>(a.length(), ::ceil(a.coeff[0])); }
-    template<class T> const UTP<T> floor(const UTP<T>& a) { return UTP<T>(a.length(), ::floor(a.coeff[0])); }
+    template<class T> const UTP<T> fabs (const UTP<T>& a)
+    {
+        return (a.coeff[0] > 0) ? a : -a;
+    }
+
+    template<class T> const UTP<T> ceil (const UTP<T>& a)
+    {
+        using math::ceil;
+
+        return UTP<T>(a.length(), ceil(a.coeff[0]));
+    }
+
+    template<class T> const UTP<T> floor(const UTP<T>& a)
+    {
+        using math::floor;
+
+        return UTP<T>(a.length(), floor(a.coeff[0]));
+    }
 
     template<class T> const UTP<T> sin(const UTP<T>& a)
     {
+        using math::sin;
+        using math::cos;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' =  va' (u = sin(a))
         // v' = -ua' (v = cos(a))
-        u.set(0, ::sin(a[0])); v.set(0, ::cos(a[0]));
+        u.set(0, sin(a[0])); v.set(0, cos(a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-1.0), a.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -317,11 +347,14 @@ namespace tada {
 
     template<class T> const UTP<T> cos(const UTP<T>& a)
     {
+        using math::sin;
+        using math::cos;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' =  va' (u = sin(a))
         // v' = -ua' (v = cos(a))
-        u.set(0, ::sin(a[0])); v.set(0, ::cos(a[0]));
+        u.set(0, sin(a[0])); v.set(0, cos(a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-1.0), a.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -331,11 +364,13 @@ namespace tada {
 
     template<class T> const UTP<T> tan(const UTP<T>& a)
     {
+        using math::tan;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' =  va' (u = tan(a))
         // v' = 2uu' (v = 1 + a*a)
-        u.set(0, ::tan(a[0])); v.set(0, T(1.0) + ::tan(a[0])*::tan(a[0]));
+        u.set(0, tan(a[0])); v.set(0, T(1.0) + tan(a[0])*tan(a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(2.0), u.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -345,11 +380,14 @@ namespace tada {
 
     template<class T> const UTP<T> asin(const UTP<T>& a)
     {
+        using math::asin;
+        using math::sqrt;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' =  vu' (u = asin(a))
         // v' = -au' (v = sqrt(1 - a*a))
-        u.set(0, ::asin(a[0])); v.set(0, ::sqrt(T(1.0) - a[0]*a[0]));
+        u.set(0, asin(a[0])); v.set(0, sqrt(T(1.0) - a[0]*a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-1.0), u.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -359,11 +397,14 @@ namespace tada {
 
     template<class T> const UTP<T> acos(const UTP<T>& a)
     {
+        using math::acos;
+        using math::sqrt;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' =  vu' (u = acos(a))
         // v' = -au' (v = -sqrt(1 - a*a))
-        u.set(0, ::acos(a[0])); v.set(0, -::sqrt(T(1.0) - a[0]*a[0]));
+        u.set(0, acos(a[0])); v.set(0, - sqrt(T(1.0) - a[0]*a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-1.0), u.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -373,11 +414,13 @@ namespace tada {
 
     template<class T> const UTP<T> atan(const UTP<T>& a)
     {
+        using math::atan;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' =  vu' (u = atan(a))
         // v' = 2aa' (v = 1 + a*a)
-        u.set(0, ::atan(a[0])); v.set(0, T(1.0) + a[0]*a[0]);
+        u.set(0, atan(a[0])); v.set(0, T(1.0) + a[0]*a[0]);
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(2.0), a.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -387,11 +430,14 @@ namespace tada {
 
     template<class T> const UTP<T> sinh(const UTP<T>& a)
     {
+        using math::sinh;
+        using math::cosh;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' = va' (u = sinh(a))
         // v' = ua' (v = cosh(a))
-        u.set(0, ::sinh(a[0])); v.set(0, ::cosh(a[0]));
+        u.set(0, sinh(a[0])); v.set(0, cosh(a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(1.0), a.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -401,11 +447,14 @@ namespace tada {
 
     template<class T> const UTP<T> cosh(const UTP<T>& a)
     {
+        using math::sinh;
+        using math::cosh;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' = va' (u = sinh(a))
         // v' = ua' (v = cosh(a))
-        u.set(0, ::sinh(a[0])); v.set(0, ::cosh(a[0]));
+        u.set(0, sinh(a[0])); v.set(0, cosh(a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(1.0), a.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -415,11 +464,13 @@ namespace tada {
 
     template<class T> const UTP<T> tanh(const UTP<T>& a)
     {
+        using math::tanh;
+
         UTP<T> u(a.length()), v(a.length());
 
         // u' =   va' (u = tanh(a))
         // v' = -2uu' (v = 1 - u*u)
-        u.set(0, ::tanh(a[0])); v.set(0, (T(1.0) - u[0]*u[0]));
+        u.set(0, tanh(a[0])); v.set(0, T(1.0) - u[0]*u[0]);
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-2.0), u.coeff.begin(), u.coeff.begin(),
                                  u.length() ,  1);
@@ -429,11 +480,14 @@ namespace tada {
 
     template<class T> const UTP<T> asinh(const UTP<T>& a)
     {
+        using math::asinh;
+        using math::sqrt;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' = vu' (u = asinh(a))
         // v' = au' (v = sqrt(1 + a*a))
-        u.set(0, ::log(a[0] + ::sqrt(a[0]*a[0] + T(1.0)))); v.set(0, ::sqrt(T(1.0) + a[0]*a[0]));
+        u.set(0, asinh(a[0])); v.set(0, sqrt(T(1.0) + a[0]*a[0]));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(1.0), u.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -443,11 +497,14 @@ namespace tada {
 
     template<class T> const UTP<T> acosh(const UTP<T>& a)
     {
+        using math::acosh;
+        using math::sqrt;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' = vu' (u = acosh(a))
         // v' = au' (v = sqrt(a*a - 1))
-        u.set(0, ::log(a[0] + ::sqrt(a[0]*a[0] - T(1.0)))); v.set(0, ::sqrt(a[0]*a[0] - T(1.0)));
+        u.set(0, acosh(a[0])); v.set(0, sqrt(a[0]*a[0] - T(1.0)));
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(),  T(1.0), u.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -457,11 +514,13 @@ namespace tada {
 
     template<class T> const UTP<T> atanh(const UTP<T>& a)
     {
+        using math::atanh;
+
         UTP<T> u(a.length()), v(a.length());
 
         // a' =   vu' (u = atanh(a))
         // v' = -2aa' (v = 1 - a*a)
-        u.set(0, T(0.5) * ::log((T(1.0) + a[0])/(T(1.0) - a[0]))); v.set(0, T(1.0) - a[0]*a[0]);
+        u.set(0, atanh(a[0])); v.set(0, T(1.0) - a[0]*a[0]);
         tada::utils::solve_simul(u.coeff.begin(),  T(1.0), a.coeff.begin(), v.coeff.begin(),
                                  v.coeff.begin(), T(-2.0), a.coeff.begin(), a.coeff.begin(),
                                  u.length() ,  3);
@@ -471,10 +530,12 @@ namespace tada {
 
     template<class T> const UTP<T> exp(const UTP<T>& a)
     {
+        using math::exp;
+
         UTP<T> u(a.length());
 
         // u' = ua (u = exp(a))
-        u.set(0, ::exp(a.coeff[0]));
+        u.set(0, exp(a.coeff[0]));
         tada::utils::solve_ueqva(u.coeff.begin(), a.coeff.begin(), u.coeff.begin(), a.length(), T(0.0));
 
         return u;
@@ -482,10 +543,12 @@ namespace tada {
 
     template<class T> const UTP<T> log(const UTP<T>& a)
     {
+        using math::log;
+
         UTP<T> u(a.length());
 
         // a' = au' (u = log(a))
-        u.set(0, ::log(a.coeff[0]));
+        u.set(0, log(a.coeff[0]));
         tada::utils::solve_aeqvu(u.coeff.begin(), a.coeff.begin(), a.coeff.begin(), a.length(), T(0.0));
 
         return u;
@@ -493,7 +556,9 @@ namespace tada {
 
     template<class T> const UTP<T> log10(const UTP<T>& a)
     {
-        return log(a)/::log(T(10.0));
+        using math::log;
+
+        return log(a)/log(T(10.0));
     }
 
     template<class T> const UTP<T> pow(const UTP<T>&, const UTP<T>& a);
