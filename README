@@ -1,7 +1,6 @@
 tada -- templated automatic differentiation
 -------------------------------------------
 
-
 quick install
 -------------
   $ git clone http://github.com/quantumelixir/tada
@@ -11,7 +10,6 @@ quick install
   $ cmake ..
   $ make
   $ ls demos/ tests/
-
 
 about
 -----
@@ -23,19 +21,14 @@ Currently, it has native support for:
   * floats (32-bit)
   * doubles (64-bit)
   * mpfr::mpreal (GNU MP multiprecision types with correct rounding semantics)
-  * complex (std::complex from the C++ standard)
+  * complex type (std::complex from the C++ standard)
+  * rational types (boost::rational<T> and mpq_class from gmpxx.h)
 
 The idea is to not limit, in any way, the generality of the simplest scalar
 types. The data types themselves are decoupled from the actual forward mode
 differentiation algorithms through templated univariate taylor propagation.
 Automatic differentiation in the forward mode has been implemented through
-operator overloading. Plans for implementing lazy evaluation using expression
-templates for high performance, expression-specific code are around the corner.
-
-Interval arithmetic also allows for automatic validation of numerical results
-through computer generated error bounds. Support for interval arithmetic is
-expected to be implemented through MPFI.
-
+operator overloading.
 
 current
 -------
@@ -47,7 +40,6 @@ function to be differentiated.
 An example expression from the set of standard demos included:
 sin(x*x)/(1 + log(x)) + asin(1/(1 + cosh(x)*tanh(x)))
 
-
 testing
 -------
 All features currently in tada are continually tested using the unit testing
@@ -55,29 +47,13 @@ framework CPPUnit. The values encoded in the unit tests (against which our
 results are compared) are themselves derived from the symbolic differentiation
 program SymPy.
 
-
-done
-----
-  * forward mode through univariate taylor propagation (operator overloading)
-  * arbitrary precision arithmetic, rational types
-
-
-future
-------
-  * utp for matrices
-  * interval arithmetic
-  * solving ordinary differential equations
-  * forward and reverse mode using the recorded computational graph
-  * discover redundancies in computational graph and reuse common subexpressions
-  * interface contraction (hybrid of forward and reverse) on the graph
-  * sparse jacobian and hessian matrices through graph coloring
-  * arbitrary order differentiation for multivariate functions
-  * expression templates (single pass & no temporaries) using PETE/Daixtrose
-  * parallel taylor propagation (OpenMP)
-  * finite difference methods, richardson's extrapolation (for comparison)
-
-
 libraries
 ---------
-  * MPFR/GMP: Arbitrary precision arithmetic
+  * GMP: Arbitrary precision arithmetic
+  * MPFR++: C++ Wrapper for MPFR
   * CPPUnit: Test driven development
+
+related
+-------
+  * algopy - http://github.com/b45ch1/algopy (A library for Automatic Differentation in Python)
+  * taylorpoly - http://github.com/b45ch1/taylorpoly (Vectorized taylor polynomial algorithms written in ANSI C)
