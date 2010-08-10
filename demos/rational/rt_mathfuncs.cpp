@@ -1,12 +1,12 @@
 #include "mathfuncs.h"
-#include <boost/rational.hpp>
+#include <gmpxx.h>
 
 using std::cout;
 using std::endl;
 
 int main(int argc, char **argv)
 {
-    boost::rational<int> x0(1, 2);
+    mpq_class x0(355, 113);
 
     cout << "Differentiation with rational types around the point: "<< x0 << endl;
 

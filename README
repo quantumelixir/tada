@@ -59,13 +59,13 @@ program SymPy.
 done
 ----
   * forward mode through univariate taylor propagation (operator overloading)
-  * arbitrary precision arithmetic
+  * arbitrary precision arithmetic, rational types
 
 
 future
 ------
   * utp for matrices
-  * interval arithmetic, rational types
+  * interval arithmetic
   * solving ordinary differential equations
   * forward and reverse mode using the recorded computational graph
   * discover redundancies in computational graph and reuse common subexpressions
