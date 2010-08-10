@@ -1,0 +1,24 @@
+immediate future
+----------------
+  * Demonstrate solution of ODEs through UTP
+  * pow, sqrt, atan2
+  * Interval arithmetic (Profil/BIAS or boost::numeric::interval)
+  * Experiment with lazy evalution using expression templates (Daixtrose)
+  * Add support for multivariate Taylor propagation
+
+
+done
+----
+  * forward mode through univariate taylor propagation (operator overloading)
+  * arbitrary precision arithmetic, rational types
+
+
+future
+------
+  * utp for matrices, tensors
+  * reverse mode using a recorded computational graph
+  * interface contraction (hybrid of forward and reverse) on the graph
+  * sparse jacobian and hessian matrices through graph coloring
+  * expression templates (single pass & no temporaries) using PETE/Daixtrose
+  * parallel taylor propagation (OpenMP)
+  * finite difference methods, richardson's extrapolation (for comparison)
