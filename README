@@ -57,3 +57,4 @@ related
 -------
   * algopy - http://github.com/b45ch1/algopy (A library for Automatic Differentation in Python)
   * taylorpoly - http://github.com/b45ch1/taylorpoly (Vectorized taylor polynomial algorithms written in ANSI C)
+  * pydx - http://gr.anu.edu.au/svn/people/sdburton/pydx/doc/user-guide.html
